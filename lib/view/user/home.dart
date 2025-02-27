@@ -1,5 +1,5 @@
 import 'package:donation/view/user/profile.dart';
-import 'package:donation/widget/user_tileslist.dart';
+import 'package:donation/view/user/widget/user_tileslist.dart';
 import 'package:flutter/material.dart';
 
 import '../../widget/optiontile.dart';

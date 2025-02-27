@@ -112,10 +112,10 @@ class LoginScreen extends StatelessWidget {
                   ontap: () {
                     if (controller.loginvalidateForm()) {
                       if(controller.selectedRole.value == "User"){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) =>  UserHome()));
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  UserHome()));
 
                       }else{
-                        Navigator.push(context, MaterialPageRoute(builder: (context) =>  AdminHome()));
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  AdminHome()));
                       }
                       // 
                     } else {
