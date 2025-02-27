@@ -1,4 +1,15 @@
 
+import 'package:donation/view/superadmin/pagehome/ambulence_service_page/ambulance_service.dart';
+import 'package:donation/view/superadmin/pagehome/blood_instraction_page/add_instructions.dart';
+import 'package:donation/view/superadmin/pagehome/blood_request/donar_requiest_home.dart';
+import 'package:donation/view/superadmin/pagehome/donor_registration_page/donor_terms%20_and_conditions.dart';
+import 'package:donation/view/superadmin/pagehome/find_donor/find_donar_home.dart';
+import 'package:donation/view/superadmin/pagehome/helpline/helpline_page.dart';
+import 'package:donation/view/superadmin/pagehome/hospitals/hospitals.dart';
+import 'package:donation/view/superadmin/pagehome/pain_and_palliative_page/pain_and_palliative.dart';
+import 'package:donation/view/superadmin/pagehome/recent_donation_history/recent_donation_history_home.dart';
+import 'package:donation/view/superadmin/pagehome/user_request/user_request_homepage.dart';
+
 class SuperadminOptions {
   late String name;
 
@@ -11,10 +22,7 @@ class SuperadminOptions {
 }
 
 final List<SuperadminOptions> admintileList = [
-  SuperadminOptions(
-    name: "Admin Registration",
-    image: "assets/images/admin registration.png",
-  ),
+
   SuperadminOptions(
     name: "User Request",
     image: "assets/images/user reques.png",
@@ -27,10 +35,7 @@ final List<SuperadminOptions> admintileList = [
     name: "Donor Registration",
     image: "assets/images/donar Registration.jpg",
   ),
-  SuperadminOptions(
-    name: "Donor Request History",
-    image: "assets/images/donar req history.jpeg",
-  ),
+ 
   SuperadminOptions(
     name: "Blood Request",
     image: "assets/images/donar request.jpeg",
@@ -63,16 +68,14 @@ final List<SuperadminOptions> admintileList = [
 ];
 
 final List SuperadminoptionScreen = [
-  // const AdminHome(),
-  // UserRequestHome(),
-  // Super_RecentDonationHistoryHome(),
-  // const DonorRegistration(),
-  //  DonorRequestHistoryhome(),
-  // DonorRequestHome_super(),
-  // searchpage(),
-  // const AmbulanceService(),
-  // PainAndPalliative_super(),
-  // const Super_Hospitals(),
-  // const Helpline(),
-  // const BloodInstraction(),
+  UserRequestHome(),
+  Super_RecentDonationHistoryHome(),
+  DonorRegistration(),
+  DonorRequestHome_super(),
+  FindDonar(),
+  const AmbulanceService(),
+  PainAndPalliative_super(),
+  const Super_Hospitals(),
+  const Helpline(),
+  const BloodInstraction(),
 ];

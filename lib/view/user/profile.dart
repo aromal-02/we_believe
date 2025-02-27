@@ -1,7 +1,7 @@
 
 
 import 'package:donation/constant/colors.dart';
-import 'package:donation/view/user/home.dart';
+import 'package:donation/view/auth/login.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -102,10 +102,10 @@ class ProfilePage extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: ListTile(
                           onTap: () {
-                            Navigator.push(
+                           Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const UserHome()));
+                                    builder: (context) => LoginScreen()));
                           },
                           leading: const Icon(
                             Icons.logout,

@@ -1,6 +1,6 @@
 import 'package:donation/view/superadmin/profile.dart';
+import 'package:donation/view/superadmin/widget/superadmin_tilelist.dart';
 import 'package:donation/widget/optiontile.dart';
-import 'package:donation/widget/superadmin_tilelist.dart';
 import 'package:flutter/material.dart';
 
 class AdminHome extends StatelessWidget {
@@ -24,7 +24,7 @@ Navigator.of(context).push(MaterialPageRoute(
                   children: [
                     
                      CircleAvatar(
-                       
+                       child: Center(child: Text("A"),),
                       ),
                     const SizedBox(
                       width: 8,
