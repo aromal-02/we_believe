@@ -1,0 +1,2 @@
+C:/Users/clanl/OneDrive/Desktop/we_believe/android/app/.cxx/Debug/455i5e61/x86/CMakeFiles/edit_cache.dir
+C:/Users/clanl/OneDrive/Desktop/we_believe/android/app/.cxx/Debug/455i5e61/x86/CMakeFiles/rebuild_cache.dir

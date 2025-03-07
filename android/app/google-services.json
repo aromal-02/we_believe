@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "314551348438",
+    "project_id": "we-believe-e218a",
+    "storage_bucket": "we-believe-e218a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:314551348438:android:f0cabbf8994dfe43452d77",
+        "android_client_info": {
+          "package_name": "com.example.donation"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMn-S9UwsJp8j-JO8YRHaWj3o1_ZvuhC4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
