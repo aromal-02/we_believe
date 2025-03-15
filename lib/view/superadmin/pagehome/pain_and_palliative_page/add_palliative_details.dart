@@ -1,27 +1,15 @@
 import 'dart:io';
 
 import 'package:donation/constant/colors.dart';
+import 'package:donation/service/controller/painpalliative_controller.dart';
 import 'package:donation/widget/custom_signupbutton.dart';
 import 'package:donation/widget/customtextfield.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class AddPalliativeDetails_super extends StatefulWidget {
-  const AddPalliativeDetails_super({super.key});
-
-  @override
-  State<AddPalliativeDetails_super> createState() =>
-      _AddPalliativeDetails_superState();
-}
-
-class _AddPalliativeDetails_superState
-    extends State<AddPalliativeDetails_super> {
-  final formkey = GlobalKey<FormState>();
-  final palliativename = TextEditingController();
-  final palliativenumber = TextEditingController();
-  final palliativelocation = TextEditingController();
-  File? _pickedImage;
-  bool ischecker = false;
-
+class AddPalliativeDetails_super extends StatelessWidget {
+   AddPalliativeDetails_super({super.key});
+PainpalliativeController controller=Get.put(PainpalliativeController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +25,7 @@ class _AddPalliativeDetails_superState
       ),
       body: SingleChildScrollView(
         child: Form(
-          key: formkey,
+          key: controller.formkey,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -52,7 +40,7 @@ class _AddPalliativeDetails_superState
                   height: MediaQuery.of(context).size.height * .02,
                 ),
                 CustomFormField(
-                  controller: palliativename,
+                  controller: controller.palliativename,
                   icons: Icon(Icons.person),
                   validation: (value) {
                     if (value == null || value.isEmpty) {
@@ -68,7 +56,7 @@ class _AddPalliativeDetails_superState
                 CustomFormField(
                   icons: Icon(Icons.phone),
                   labeltxt: "Palliative Number",
-                  controller: palliativenumber,
+                  controller: controller.palliativenumber,
                   textinputtype: TextInputType.number,
                   validation: (value) {
                     if (value == null || value.isEmpty) {
@@ -83,7 +71,7 @@ class _AddPalliativeDetails_superState
                   height: MediaQuery.of(context).size.height * .01,
                 ),
                 CustomFormField(
-                  controller: palliativelocation,
+                  controller: controller.detailscontroller,
                   validation: (value) {
                     if (value == null || value.isEmpty) {
                       return "Required";
@@ -96,16 +84,18 @@ class _AddPalliativeDetails_superState
                 SizedBox(
                   height: MediaQuery.of(context).size.height * .02,
                 ),
-                ischecker
-                    ? CircularProgressIndicator()
-                    : SignUpOrSignInButton(
+                SignUpOrSignInButton(
                         buttonName: 'submit',
                         onPress: () {
-                          if (formkey.currentState!.validate()) {
-                            formkey.currentState!.save();
-                            
-                        
-                          }
+                          controller.savedetails();
+                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    content: Text('Created'),
+    behavior: SnackBarBehavior.floating,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(24),
+    )
+    ));
+                          Navigator.pop(context);
                         },
                       ),
               ],
@@ -115,5 +105,4 @@ class _AddPalliativeDetails_superState
       ),
     );
   }
-
 }

@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:donation/constant/colors.dart';
+import 'package:donation/service/controller/donar_controller.dart';
 import 'package:donation/widget/custom_signupbutton.dart';
 import 'package:donation/widget/customtextfield.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 
 class Super_DonorRegistrationHome extends StatefulWidget {
@@ -16,15 +18,8 @@ class Super_DonorRegistrationHome extends StatefulWidget {
 
 class _Super_DonorRegistrationHomeState
     extends State<Super_DonorRegistrationHome> {
-  final _formkey = GlobalKey<FormState>();
-  final nameController = TextEditingController();
-  final emailController = TextEditingController();
-  final phoneController = TextEditingController();
-  final bloodGroupController = TextEditingController();
-  final addressController = TextEditingController();
-  final weightController = TextEditingController();
-  final agecontroller = TextEditingController();
-
+ 
+DonarController controller =Get.put(DonarController());
   final List<String> bloodgroups = [
     "A+",
     "B+",
@@ -39,10 +34,7 @@ class _Super_DonorRegistrationHomeState
   ];
   final List<String> gender = ["Male", "Female", "Other"];
 
-  String? selectedgroup;
-  String? selectedgender;
-  File? _pickedimage;
-  final bool _isLoading = false;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +43,7 @@ class _Super_DonorRegistrationHomeState
       //resizeToAvoidBottomInset: false,
       body: Center(
         child: Form(
-          key: _formkey,
+          key: controller.formkey,
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -71,7 +63,7 @@ class _Super_DonorRegistrationHomeState
                   CustomFormField(
                     labeltxt: "Name",
                     icons: const Icon(Icons.person),
-                    controller: nameController,
+                    controller: controller.nameController,
                     validation: (value) {
                       if (value!.isEmpty) {
                         return "Required Field";
@@ -85,7 +77,7 @@ class _Super_DonorRegistrationHomeState
                   CustomFormField(
                     labeltxt: "Email",
                     icons: const Icon(Icons.email_outlined),
-                    controller: emailController,
+                    controller: controller.emailController,
                     validation: (value) {
                       if (value!.isEmpty) {
                         return "Required Field";
@@ -103,7 +95,7 @@ class _Super_DonorRegistrationHomeState
                     textinputtype: TextInputType.number,
                     labeltxt: "Phone Number",
                     icons: const Icon(Icons.phone),
-                    controller: phoneController,
+                    controller: controller.phoneController,
                     validation: (value) {
                       if (value!.isEmpty) {
                         return "Required Field";
@@ -122,12 +114,13 @@ class _Super_DonorRegistrationHomeState
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(
-                          width: MediaQuery.of(context).size.width * .3,
+                          width: MediaQuery.of(context).size.width * .3,                          
+
                           child: CustomFormField(
                             textinputtype: TextInputType.number,
                             labeltxt: "Age",
                             icons: Icon(Icons.numbers),
-                            controller: agecontroller,
+                            controller: controller.agecontroller,
                             validation: (value) {
                               if (value == null || value.isEmpty) {
                                 return "Required";
@@ -141,7 +134,7 @@ class _Super_DonorRegistrationHomeState
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width /2.5,
-                          height: 55,
+                          height: MediaQuery.of(context).size.height *0.067,
                           child: DropdownButtonFormField(
                             decoration: const InputDecoration(
                               contentPadding:
@@ -158,20 +151,14 @@ class _Super_DonorRegistrationHomeState
                               ),
                               border: InputBorder.none,
                               hintText: "Blood Type",
-                              hintStyle: TextStyle(fontSize: 10),
+                              hintStyle: TextStyle(fontSize: 8),
                             ),
-                            items: bloodgroups
-                                .map((e) => DropdownMenuItem(
-                                      value: e,
-                                      child: Text(e,style: TextStyle(fontSize: 13),),
-                                    ))
-                                .toList(),
-                            value: selectedgroup,
-                            onChanged: (value) {
-                              setState(() {
-                                selectedgroup = value;
-                              });
-                            },
+                              items: bloodgroups.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+
+                             value: controller.selectedgroup.value ?? null,
+
+                          onChanged: (value) => controller.selectedgroup.value = value!,
+
                           ),
                         ),
                         SizedBox(
@@ -179,11 +166,13 @@ class _Super_DonorRegistrationHomeState
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 3,
+                          height: MediaQuery.of(context).size.height *0.067,
+
                           child: CustomFormField(
                             textinputtype: TextInputType.number,
                             labeltxt: "Weight",
                             icons: Icon(Icons.numbers),
-                            controller: weightController,
+                            controller: controller.weightController,
                             validation: (value) {
                               if (value == null || value.isEmpty) {
                                 return "Required";
@@ -197,7 +186,7 @@ class _Super_DonorRegistrationHomeState
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 2.5,
-                          height: 55,
+                          height: MediaQuery.of(context).size.height *0.067,
                           child: DropdownButtonFormField(
                             decoration: const InputDecoration(
                               contentPadding:
@@ -214,7 +203,7 @@ class _Super_DonorRegistrationHomeState
                               ),
                               border: InputBorder.none,
                               hintText: "Gender",
-                              hintStyle: TextStyle(fontSize: 12),
+                              hintStyle: TextStyle(fontSize: 10),
                             ),
                             items: gender
                                 .map((e) => DropdownMenuItem(
@@ -222,10 +211,10 @@ class _Super_DonorRegistrationHomeState
                                       child: Text(e,style: TextStyle(fontSize: 13)),
                                     ))
                                 .toList(),
-                            value: selectedgender,
+                            value:controller. selectedgender.value,
                             onChanged: (value) {
                               setState(() {
-                                selectedgender = value;
+                                controller.selectedgender.value = value!;
                               });
                             },
                           ),
@@ -239,7 +228,7 @@ class _Super_DonorRegistrationHomeState
                   CustomFormField(
                     labeltxt: "Address",
                     maxline: 5,
-                    controller: addressController,
+                    controller: controller.addressController,
                     validation: (value) {
                       if (value == null || value.isEmpty) {
                         return "required";
@@ -253,12 +242,13 @@ class _Super_DonorRegistrationHomeState
                   const SizedBox(
                     height: 30,
                   ),
-                  _isLoading
-                      ? CircularProgressIndicator()
-                      : SignUpOrSignInButton(
-                          buttonName: 'Register',
-                          onPress: () {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  Obx(() => controller.isLoading.value 
+    ? CircularProgressIndicator() 
+    : SignUpOrSignInButton(
+        buttonName: 'Register',
+        onPress: () {controller.savedetails();
+        
+                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text('Shared'),
     behavior: SnackBarBehavior.floating,
     shape: RoundedRectangleBorder(
@@ -266,7 +256,10 @@ class _Super_DonorRegistrationHomeState
     )
     ));
     Navigator.pop(context);
-                          }),
+    }
+      ),
+),
+
                 ],
               ),
             ),

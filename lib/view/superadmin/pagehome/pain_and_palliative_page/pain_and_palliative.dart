@@ -1,131 +1,150 @@
 import 'package:donation/constant/colors.dart';
+import 'package:donation/service/controller/painpalliative_controller.dart';
 import 'package:donation/view/superadmin/pagehome/pain_and_palliative_page/add_palliative_details.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class PainAndPalliative_super extends StatelessWidget {
-  const PainAndPalliative_super({super.key,});
-
-  // Mock stream for demonstration purposes
-  // final Stream<List<String>> mockDataStream = Stream.value(['Item 1', 'Item 2', 'Item 3']);
-
+   PainAndPalliative_super({super.key,});
+PainpalliativeController controller=Get.put(PainpalliativeController());
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
-        title: const Text(
-          "PainAndPalliative",
-          style: TextStyle(color: Colours.white),
-        ),
+        title: const Text("Pain and Palliative", style: TextStyle(color: Colors.white)),
         backgroundColor: Colours.red,
         actions: [
           IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => AddPalliativeDetails_super()),
-              );
+            onPressed: () async {
+              await Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AddPalliativeDetails_super()));
+              controller.fetchpalliative(); 
             },
-            icon: Icon(
-              Icons.add,
-              color: Colours.white,
-            ),
+            icon: Icon(Icons.add, color: Colours.white),
           )
         ],
       ),
-      body: LayoutBuilder(
-              builder: (context, constraints) {
-                return ListView.builder(
-                  itemCount:5,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onLongPress: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: const Text("Delete"),
-                              content: const Text("Are You Sure Delete?"),
-                              actions: [
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-
-                      
-                                  },
-                                  child: const Text("Yes"),
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text("No"),
-                                ),
-                              ],
+      body: Obx(() {
+        if (controller.palliative.isEmpty) {
+          return Center(child: Text("No Hospitals Found"));
+        }
+        return RefreshIndicator(
+          onRefresh: () async {
+            await controller.fetchpalliative();
+          },
+          child: ListView.builder(
+            itemCount: controller.palliative.length,
+            itemBuilder: (context, index) {
+              final palliative = controller.palliative[index];
+                               return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: Container(
+                            //padding: EdgeInsets.all(8.0),
+                            margin: EdgeInsets.symmetric(vertical: 10),
+                            // height: constraints.maxHeight * 0.2,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                color: Colours.red,
+                              ),
                             ),
-                          );
-                        },
-                        child: Container(
-                          height: constraints.maxHeight * 0.16,
-                          width: constraints.maxWidth * 0.9,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              color: Colours.lightRed,
-                            ),
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: constraints.maxWidth * 0.09,
-                              ),
-                              CircleAvatar(
-                                radius: constraints.maxWidth * 0.1,
-                                child: Center(child: Text("N"),),
-                              ),
-                              SizedBox(
-                                width: constraints.maxWidth * 0.05,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                            child: InkWell(
+                              child: Row(
                                 children: [
-                                  Text(
-                                    "name",
-                                    style: TextStyle(
-                                      fontSize: constraints.maxWidth * 0.05,
-                                    ),
+                                  SizedBox(width: 10),
+                                  CircleAvatar(
+                                    radius:35,
+                                    child:Text( palliative['name'].isNotEmpty ? palliative['name'][0].toUpperCase() : "", )
                                   ),
-                                  GestureDetector(
-                                    onTap: () {
-
-                                    },
-                                    child: Text(
-                                      'phone',
-                                      style: TextStyle(
-                                          // fontSize: constraints.maxWidth * 0.05,
+                                  SizedBox(width: 10),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                        
+                                                palliative['name'],
+                                            style: TextStyle(
+                                              fontSize:
+                                                 22,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ), SizedBox(height: 8),
+                                          Text(
+                                              palliative['address'], style: TextStyle(
+                                              fontSize:
+                                                 16,
+                                              fontWeight: FontWeight.w500,
+                                            ),),
+                                          
+                                          Row(
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () {
+                                                 
+                                                  
+                                                },
+                                                child: Text(
+                                                 palliative['phone'], style: TextStyle(
+                                              fontSize:
+                                                 16,
+                                              fontWeight: FontWeight.w500,
+                                            ),),
+                                              ),
+                                              IconButton(
+                                                onPressed: () {},
+                                                icon: Icon(Icons.phone,
+                                                    color: Colors.blue),
+                                              ),
+                                            ],
                                           ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    'location',
-                                    style: TextStyle(
-                                        // fontSize: constraints.maxWidth * 0.05,
-                                        ),
                                   ),
                                 ],
                               ),
-                            ],
+                              onLongPress: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: const Text("Delete"),
+                                    content: const Text("Are You Sure Delete?"),
+                                    actions: [
+                                      ElevatedButton(
+                                        onPressed: ()async {
+                                        controller.delete_collection(palliative['docId']);
+                                       Navigator.pop(context);
+                                        },
+                                        child: const Text("Yes"),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("No"),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
-                );
-              },
-            ));
-         
-        }}
+                      );
+                    },
+                  ),
+            );
+              }));
+  }
+  }

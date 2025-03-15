@@ -1,7 +1,5 @@
 
 import 'package:donation/view/superadmin/pagehome/ambulence_service_page/ambulance_service.dart';
-import 'package:donation/view/superadmin/pagehome/blood_instraction_page/add_instructions.dart';
-import 'package:donation/view/superadmin/pagehome/blood_request/donar_requiest_home.dart';
 import 'package:donation/view/superadmin/pagehome/donor_registration_page/donor_terms%20_and_conditions.dart';
 import 'package:donation/view/superadmin/pagehome/find_donor/find_donar_home.dart';
 import 'package:donation/view/superadmin/pagehome/helpline/helpline_page.dart';
@@ -9,6 +7,7 @@ import 'package:donation/view/superadmin/pagehome/hospitals/hospitals.dart';
 import 'package:donation/view/superadmin/pagehome/pain_and_palliative_page/pain_and_palliative.dart';
 import 'package:donation/view/superadmin/pagehome/recent_donation_history/recent_donation_history_home.dart';
 import 'package:donation/view/superadmin/pagehome/user_request/user_request_homepage.dart';
+import 'package:donation/view/user/pagehome/blood_instraction_page/blood_instraction.dart';
 
 class SuperadminOptions {
   late String name;
@@ -36,10 +35,7 @@ final List<SuperadminOptions> admintileList = [
     image: "assets/images/donar Registration.jpg",
   ),
  
-  SuperadminOptions(
-    name: "Blood Request",
-    image: "assets/images/donar request.jpeg",
-  ),
+ 
   SuperadminOptions(
     name: "Find Donor",
     image: "assets/images/donarfind1.webp",
@@ -71,11 +67,10 @@ final List SuperadminoptionScreen = [
   UserRequestHome(),
   Super_RecentDonationHistoryHome(),
   DonorRegistration(),
-  DonorRequestHome_super(),
   FindDonar(),
-  const AmbulanceService(),
+   AmbulanceService(),
   PainAndPalliative_super(),
-  const Super_Hospitals(),
-  const Helpline(),
-  const BloodInstraction(),
+   Super_Hospitals(),
+   Helpline(),
+   BloodInstraction(),
 ];

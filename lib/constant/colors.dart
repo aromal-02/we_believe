@@ -6,4 +6,5 @@ class Colours {
   static const black = Color.fromARGB(255, 0, 0, 0);
     static const lightRed = Color.fromARGB(255, 185, 55, 55);
  static const  textLightBlack= Color.fromARGB(255, 83, 83, 83);
+ 
 }

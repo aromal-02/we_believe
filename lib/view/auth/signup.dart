@@ -1,5 +1,6 @@
 import 'package:donation/constant/colors.dart';
-import 'package:donation/controller/login_controller.dart';
+import 'package:donation/service/api/api_service.dart';
+import 'package:donation/service/controller/login_controller.dart';
 import 'package:donation/view/user/home.dart';
 import 'package:donation/widget/custom_button.dart';
 import 'package:donation/widget/customtextfield.dart';
@@ -175,7 +176,7 @@ class Signup extends StatelessWidget {
                 Column(
                   children: [
                     CustomFormField(
-                      labeltxt: "Enter your address",
+  onChanged: (value) => controller.address.value = value,                      labeltxt: "Enter your address",
                     ),
                   ],
                 ),
@@ -224,8 +225,23 @@ Obx(
                 CustomElevatedBtn(
                   name: "Sign Up",
                   ontap: () {
+
                     if (controller.signupvalidateForm()) {
-                                             Navigator.push(context, MaterialPageRoute(builder: (context) =>  UserHome()));
+                      FirebaseService.add_user(
+                        controller.name.value, 
+                        controller.email.value,                        controller.phone.value,
+
+                        controller.address.value,
+                        controller. age.value,
+                        controller.bloodgroup.value,
+                        controller.dob.value,
+                        controller.password.value,
+                   
+                         ).then((_) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => UserHome(name: controller.name.value, email: controller.email.value, phone: controller.phone.value,)));
+    }).catchError((error) {
+      print("Error adding user: $error");
+    });
 
                     } else {
                       print("Signup Failed");

@@ -1,9 +1,11 @@
 
 import 'package:donation/constant/colors.dart';
+import 'package:donation/service/controller/bloodrequest_controller.dart';
 import 'package:donation/widget/custom_signupbutton.dart';
 import 'package:donation/widget/customtextfield.dart';
 import 'package:donation/widget/textformfeildwidget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 
 class BloodRequest extends StatefulWidget {
@@ -14,12 +16,7 @@ class BloodRequest extends StatefulWidget {
 }
 
 class _BloodRequestState extends State<BloodRequest> {
-  final formkey = GlobalKey<FormState>();
-  final nameController = TextEditingController();
-  final phoneController = TextEditingController();
-  final addressController = TextEditingController();
-  final agecontroller = TextEditingController();
-  final bloodunitcontroller = TextEditingController();
+  
   String? selectedgroup;
   late String dateSelected;
   final bool _isRegistering = false;
@@ -38,7 +35,7 @@ class _BloodRequestState extends State<BloodRequest> {
     "AB-",
     "RH-",
   ];
-
+BloodController controller= Get.put(BloodController());
   String? selectedgender;
   Future _selectdate() async {
     ispick = true;
@@ -67,6 +64,7 @@ class _BloodRequestState extends State<BloodRequest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
@@ -79,7 +77,7 @@ class _BloodRequestState extends State<BloodRequest> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Form(
-          key: formkey,
+          key:controller. formkey,
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -93,7 +91,7 @@ class _BloodRequestState extends State<BloodRequest> {
                   TextFormFieldWidget(
                     label: "Patient Name",
                     icon: const Icon(Icons.person),
-                    controller: nameController,
+                    controller:controller. nameController,
                     validation: (value) {
                       if (value == null || value.isEmpty) {
                         return "required";
@@ -105,7 +103,7 @@ class _BloodRequestState extends State<BloodRequest> {
                     height: MediaQuery.of(context).size.height * .03,
                   ),
                   CustomFormField(
-                    controller: phoneController,
+                    controller: controller.phoneController,
                     textinputtype: TextInputType.number,
                     maxlength: 10,
                     validation: (value) {
@@ -125,7 +123,7 @@ class _BloodRequestState extends State<BloodRequest> {
                   CustomFormField(
                     labeltxt: "Hospital address",
                     maxline: 3,
-                    controller: addressController,
+                    controller: controller.addressController,
                     validation: (value) {
                       if (value == null || value.isEmpty) {
                         return "required";
@@ -148,7 +146,7 @@ class _BloodRequestState extends State<BloodRequest> {
                             label: "Age",
                             maxAgeLength: 3,
                             icon: const Icon(Icons.numbers),
-                            controller: agecontroller,
+                            controller:controller. agecontroller,
                             validation: (value) {
                               if (value == null || value.isEmpty) {
                                 return "required";
@@ -265,7 +263,7 @@ class _BloodRequestState extends State<BloodRequest> {
                               label: "Blood Unit",
                               maxAgeLength: 2,
                               icon: const Icon(Icons.numbers),
-                              controller: bloodunitcontroller,
+                              controller:controller. bloodunitcontroller,
                               validation: (value) {
                                 if (value == null || value.isEmpty) {
                                   return "required";
@@ -277,37 +275,22 @@ class _BloodRequestState extends State<BloodRequest> {
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * .01,
+                    height: MediaQuery.of(context).size.height * .05,
                   ),
-                  CheckboxListTile(
-                    title: const Text('Blood emergency'),
-                    subtitle: const Text('are you sure argent blood '),
-                    autofocus: false,
-                    activeColor: Colors.red,
-                    checkColor: Colors.white,
-                    selected: checkValue,
-                    value: checkValue,
-                    onChanged: (value) {
-                      setState(() {
-                        checkValue = value!;
-                      });
-                    },
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  
                   _isRegistering
                       ? CircularProgressIndicator()
                       : SignUpOrSignInButton(
                           buttonName: "Submit",
                           onPress: () {
-                            if (!_isRegistering) {
-                              if (formkey.currentState!.validate()) {
-                                formkey.currentState!.save();
-                               // Blood_Request();
-                              
-                              }
-                            }
+controller.savedetails(selectedgroup, selectedgender, dateSelected);
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    content: Text('Shared'),
+    behavior: SnackBarBehavior.floating,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(24),
+    )
+    ));Navigator.pop(context);
                           },
                         ),
                 ],
@@ -319,36 +302,4 @@ class _BloodRequestState extends State<BloodRequest> {
     );
   }
 
-  // Future<void> Blood_Request() async {
-  //   try {
-  //     setState(() {
-  //       _isRegistering = true;
-  //     });
-  //     String uid = fire_auth.currentUser!.uid;
-  //     String blood = selectedgroup.toString();
-  //     String name = nameController.text;
-  //     String phone = phoneController.text;
-  //     String adress = addressController.text;
-  //     String age = agecontroller.text;
-  //     String date = dateSelected.toString();
-  //     String gender = selectedgender.toString();
-  //     String blooduint = bloodunitcontroller.text;
-  //     bool emergency = checkValue;
-
-  //     await FireService()
-  //         .blood_request(blood, name, phone, adress, age, date, gender,
-  //             blooduint, uid, emergency)
-  //         .then((value) => Navigator.push(
-  //             context,
-  //             MaterialPageRoute(
-  //               builder: (context) => Client_BottomNav(),
-  //             )));
-  //   } on FirebaseException catch (e) {
-  //     print("enter the full details ");
-  //   } finally {
-  //     setState(() {
-  //       _isRegistering = false;
-  //     });
-  //   }
-  // }
 }

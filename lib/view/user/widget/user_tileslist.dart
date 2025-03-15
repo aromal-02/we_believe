@@ -53,12 +53,12 @@ final List<Options> tileList = [
 ];
 
 final List optionScreen = [
-  const DonorRegistration(),
-  const BloodRequest(),
+   DonorRegistration(),
+   BloodRequest(),
    ClientAmbulanceService(),
-  const PainAndPalliative(),
-  const client_hospital(),
-  const Helpline(),
-  const BloodInstraction(),
+   PainAndPalliative(),
+   client_hospital(),
+   Helpline(),
+   BloodInstraction(),
    AvailableDonors(),
 ];

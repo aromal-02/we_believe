@@ -1,27 +1,23 @@
+import 'dart:developer';
+
 import 'package:donation/constant/colors.dart';
+import 'package:donation/constant/style.dart';
+import 'package:donation/service/api/api_service.dart';
+import 'package:donation/service/controller/donar_controller.dart';
+import 'package:donation/widget/custom_toast.dart';
 import 'package:flutter/material.dart';
-
-// import 'package:http/http.dart' as http;
-
-// import 'dart:developer';
-
-// import 'package:donation/constant/colors.dart';
-// import 'package:blood_donation/constants/firebase_const.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class UserAcceptandDecline extends StatefulWidget {
   const UserAcceptandDecline({
     super.key,
-    required this.bloodgroup,
-    required this.bloodid,
-    required this.docId,
-    required this.unit,
+    required this.bloodgroup, required this.reqId, required this.reciever,
+    
   });
   final String bloodgroup;
-  final String bloodid;
-  final String docId;
-  final String unit;
+  final String reqId;
+  final String reciever;
+ 
 
   @override
   State<UserAcceptandDecline> createState() => _UserAcceptandDeclineState();
@@ -29,7 +25,7 @@ class UserAcceptandDecline extends StatefulWidget {
 
 class _UserAcceptandDeclineState extends State<UserAcceptandDecline> {
   bool isButtonVisible = false;
-
+DonarController controller=Get.put(DonarController());
 
   @override
   Widget build(BuildContext context) {
@@ -44,24 +40,26 @@ class _UserAcceptandDeclineState extends State<UserAcceptandDecline> {
           ),
           backgroundColor: Colours.red,
         ),
-        body: 
-             ListView.builder(
-                    itemCount: 5,
-                    itemBuilder: (context, index) {
-                
-                        final name = 'name';
-                        final address = 'adress';
-                        final phone = 'phone';
-                        final blood = "blood";
-                        final gender = 'gender';
-                        final age = 'age';
-                       
+body:  FutureBuilder(future: controller.fetchSharedDonar(widget.bloodgroup), 
+      builder: (context,snapshot){
+if(snapshot.connectionState==ConnectionState.waiting){
+  return Center(child: CircularProgressIndicator(color: Colours.red,));
+}else if(snapshot.hasError){
+CustomToast().show("Error");
+return Center(child: Text("Error"));
+}else{
+final donors = snapshot.data!;
 
-                        return SingleChildScrollView(
-                          child: Container(
+            return ListView.builder(
+              itemCount: donors.length,
+              itemBuilder: (context, index) {
+                final donor = donors[index];
+                if(donor.isEmpty){return Center(child: Text("donar empty "),);}else{
+
+            
+                  return Container(
                             margin: const EdgeInsets.all(10),
-                            // width: MediaQuery.of(context).size.width,
-                            // height: constraints.maxHeight * 0.335,
+                            
                             decoration: BoxDecoration(
                               border: Border.all(color: Colours.red),
                               borderRadius: BorderRadius.circular(20),
@@ -75,7 +73,7 @@ class _UserAcceptandDeclineState extends State<UserAcceptandDecline> {
                                                   .size
                                                   .width *
                                               0.1,
-                                         child: Center(child: Text("N"),),
+                                         child: Center(child: Text(donor['name'].isNotEmpty ? donor['name'][0].toUpperCase() : "", ),),
                                         ),
                                      
                                   const SizedBox(
@@ -96,29 +94,29 @@ class _UserAcceptandDeclineState extends State<UserAcceptandDecline> {
                                                 height: 10,
                                               ),
                                               Text(
-                                                name,
+                                                donor['name'],
                                                 style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
                                               Text(
-                                                "Address :$address",
+                                                "Address :${donor['address']}",
                                                 style: const TextStyle(),
                                               ),
                                               Text(
-                                                "Ph : $phone",
+                                                "Ph : ${donor['phone']}",
                                                 style: const TextStyle(),
                                               ),
                                               Text(
-                                                "Group : $blood",
+                                                "Group : ${donor['group']}",
                                                 style: const TextStyle(),
                                               ),
                                               Text(
-                                                "Age : $age",
+                                                "Age : ${donor['age']}",
                                                 style: const TextStyle(),
                                               ),
                                               Text(
-                                                "Gender : $gender",
+                                                "Gender : ${donor['gender']}",
                                                 style: const TextStyle(),
                                               ),
                                               const SizedBox(
@@ -126,14 +124,17 @@ class _UserAcceptandDeclineState extends State<UserAcceptandDecline> {
                                               ),
                                               InkWell(
                                                 onTap: () {
+
+                                                  FirebaseService.update_donar(donor['docId'],widget.reciever);
+                                                  FirebaseService.update_request(widget.reqId, donor['name'], donor['phone'], donor['age']);
                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    content: Text('Shared'),
-    behavior: SnackBarBehavior.floating,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(24),
-    )
-    ));
-    Navigator.pop(context);
+                                                  content: Text('Shared'),
+                                                  behavior: SnackBarBehavior.floating,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(24),
+                                                  )
+                                                  ));
+                                                  Navigator.pop(context);
                                                 },
                                                 child: Container(
                                                   width: 100,
@@ -162,11 +163,10 @@ class _UserAcceptandDeclineState extends State<UserAcceptandDecline> {
                                 ],
                               ),
                             ),
-                          ),
-                        );
-                     
-                    }
-             )
+                          );
+                }
+});
+      }})
                       );
               }
             

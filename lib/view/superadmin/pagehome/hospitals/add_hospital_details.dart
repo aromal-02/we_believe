@@ -1,25 +1,16 @@
 import 'dart:io';
 
 import 'package:donation/constant/colors.dart';
+import 'package:donation/service/controller/hospital_controller.dart';
 import 'package:donation/widget/custom_signupbutton.dart';
 import 'package:donation/widget/customtextfield.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 
-class AddHospitalDetails extends StatefulWidget {
-  const AddHospitalDetails({super.key});
-
-  @override
-  State<AddHospitalDetails> createState() => _AddHospitalDetailsState();
-}
-
-class _AddHospitalDetailsState extends State<AddHospitalDetails> {
-  final formkey = GlobalKey<FormState>();
-  final hospitalname = TextEditingController();
-  final hospitalnumber = TextEditingController();
-  final hospitaldetailsandlocation = TextEditingController();
-  File? _pickedImage;
-
+class AddHospitalDetails extends StatelessWidget {
+   AddHospitalDetails({super.key});
+HospitalController controller=Get.put(HospitalController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
@@ -30,7 +21,7 @@ class _AddHospitalDetailsState extends State<AddHospitalDetails> {
       ),
       body: SingleChildScrollView(
         child: Form(
-          key: formkey,
+          key: controller.formkey,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -47,7 +38,7 @@ class _AddHospitalDetailsState extends State<AddHospitalDetails> {
                 CustomFormField(
                   labeltxt: "Hospital Name",
                   icons: Icon(Icons.local_hospital),
-                  controller: hospitalname,
+                  controller: controller.hospitalnamecontroller,
                   validation: (value) {
                     if (value == null || value.isEmpty) {
                       return "Required";
@@ -62,7 +53,7 @@ class _AddHospitalDetailsState extends State<AddHospitalDetails> {
                 CustomFormField(
                   labeltxt: "Hospital Number",
                   icons: Icon(Icons.phone),
-                  controller: hospitalnumber,
+                  controller: controller.hospitalnumbercontroller,
                   textinputtype: TextInputType.number,
                   validation: (value) {
                     if (value == null || value.isEmpty) {
@@ -78,7 +69,7 @@ class _AddHospitalDetailsState extends State<AddHospitalDetails> {
                   height: MediaQuery.of(context).size.height * .01,
                 ),
                 CustomFormField(
-                  controller: hospitaldetailsandlocation,
+                  controller: controller.detailscontroller,
                   labeltxt: "Hospital details and locations",
                   validation: (value) {
                     if (value == null || value.isEmpty) {
@@ -95,10 +86,15 @@ class _AddHospitalDetailsState extends State<AddHospitalDetails> {
                 SignUpOrSignInButton(
                   buttonName: 'submit',
                   onPress: () {
-                    if (formkey.currentState!.validate()) {
-                      formkey.currentState!.save();
-                    //  Hospitals_add();
-                    }
+                 controller.savedetails();
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    content: Text('Created'),
+    behavior: SnackBarBehavior.floating,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(24),
+    )
+    ));
+                 Navigator.pop(context);
                   },
                 ),
               ],

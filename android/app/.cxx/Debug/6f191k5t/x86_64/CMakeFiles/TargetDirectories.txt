@@ -1,0 +1,2 @@
+C:/Users/sarom/beleive/we_believe/android/app/.cxx/Debug/6f191k5t/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/sarom/beleive/we_believe/android/app/.cxx/Debug/6f191k5t/x86_64/CMakeFiles/rebuild_cache.dir
