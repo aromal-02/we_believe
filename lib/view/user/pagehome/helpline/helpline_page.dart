@@ -8,7 +8,7 @@ class Helpline extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:const Color.fromARGB(255, 255, 255, 255) ,
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
@@ -32,51 +32,29 @@ class Helpline extends StatelessWidget {
             const Text(
               'Welcome to the Help Line!',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Colors.red,
               ),
             ),
-
-            // Text(
-            //   'If you need assistance or have any questions, feel free to contact us:',
-            //   style: TextStyle(fontSize: 20),
-            // ),
+          //  const SizedBox(height: 16),
             const SizedBox(height: 16),
             Column(
               children: [
                 const SizedBox(width: 10),
-                helpline(123654798, "Police"),
+                helpline(112, "NATIONAL EMERGENCY NUMBER"),
                 const SizedBox(height: 16),
-                helpline(1122336655, "FireForce"),
+                helpline(100, "POLICE"),
                 const SizedBox(height: 16),
-                helpline(121213652, "Hospital"),
+                helpline(101, "FIRE"),
+                 const SizedBox(height: 16),
+                helpline(108, "AMBULANCE"), const SizedBox(height: 16),
+                
+                helpline(1091, "Women Helpline"),
               ],
             ),
 
-            // Row(
-            //   children: [
-            //     const Icon(
-            //       Icons.email,
-            //       size: 30,
-            //       color: Colors.red,
-            //     ),
-            //     const SizedBox(width: 10),
-            //     GestureDetector(
-            //       onTap: () {
-            //         final email = "help@gmail.com";
-
-            //         if (email != null) {
-            //           launch("mailto:$email");
-            //         }
-            //       },
-            //       child: const Text(
-            //         "help@gmail.com" ?? "",
-            //         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            //       ),
-            //     )
-            //   ],
-            // ),
+          
           ],
         ),
       ),
@@ -90,21 +68,21 @@ class Helpline extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         final phone = number.toString();
-        // ignore: deprecated_member_use
         launch("tel:$phone");
       },
       child: Row(
         children: [
-          const Icon(
+          Icon(
             Icons.phone,
-            size: 30,
+            size: 15,
             color: Colors.red,
           ),
-          const SizedBox(width: 10),
+          SizedBox(width: 10),
           Text(
             "$name: $number",
             style: const TextStyle(
               fontWeight: FontWeight.bold,
+              fontSize: 15,
             ),
           ),
         ],

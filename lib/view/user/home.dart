@@ -5,7 +5,11 @@ import 'package:flutter/material.dart';
 import '../../widget/optiontile.dart';
 
 class UserHome extends StatelessWidget {
-  const UserHome({super.key});
+  const UserHome({super.key, required this.name, required this.email, required this.phone});
+  final String name;
+    final String email;
+  final String phone;
+
 
  @override
   Widget build(BuildContext context) {
@@ -18,19 +22,23 @@ class UserHome extends StatelessWidget {
               title: GestureDetector(
                 onTap: () {
 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const ProfilePage(),
+                    builder: (context) =>  ProfilePage(name: name,email: email,phone: phone,),
                   ));
                 },
                 child: Row(
                   children: [
                     
-                     CircleAvatar(
-                       
-                      ),
+                      CircleAvatar(
+                radius: 20,
+                child: Text(
+                  name.isNotEmpty ? name[0].toUpperCase() : "",
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
                     const SizedBox(
                       width: 8,
                     ),
-                    Text("User Name"),
+                    Text(name),
                   ],
                 ),
               ),

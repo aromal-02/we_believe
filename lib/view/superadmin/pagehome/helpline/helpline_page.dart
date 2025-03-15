@@ -37,46 +37,24 @@ class Helpline extends StatelessWidget {
                 color: Colors.red,
               ),
             ),
-            const SizedBox(height: 16),
-            // Text(
-            //   'If you need assistance or have any questions, feel free to contact us:',
-            //   style: TextStyle(fontSize: 20),
-            // ),
+          //  const SizedBox(height: 16),
             const SizedBox(height: 16),
             Column(
               children: [
                 const SizedBox(width: 10),
-                helpline(123654798, "Police"),
+                helpline(112, "NATIONAL EMERGENCY NUMBER"),
                 const SizedBox(height: 16),
-                helpline(1122336655, "FireForce"),
+                helpline(100, "POLICE"),
                 const SizedBox(height: 16),
-                helpline(121213652, "Hospital"),
+                helpline(101, "FIRE"),
+                 const SizedBox(height: 16),
+                helpline(108, "AMBULANCE"), const SizedBox(height: 16),
+                
+                helpline(1091, "Women Helpline"),
               ],
             ),
 
-            // Row(
-            //   children: [
-            //     const Icon(
-            //       Icons.email,
-            //       size: 30,
-            //       color: Colors.red,
-            //     ),
-            //     const SizedBox(width: 10),
-            //     GestureDetector(
-            //       onTap: () {
-            //         final email = "help@gmail.com";
-
-            //         if (email != null) {
-            //           launch("mailto:$email");
-            //         }
-            //       },
-            //       child: const Text(
-            //         "help@gmail.com" ?? "",
-            //         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            //       ),
-            //     )
-            //   ],
-            // ),
+          
           ],
         ),
       ),
@@ -112,3 +90,23 @@ class Helpline extends StatelessWidget {
     );
   }
 }
+/*
+NATIONAL EMERGENCY NUMBER  112
+
+POLICE  100 or 112
+
+FIRE  101
+
+AMBULANCE  102
+
+Disaster Management Services  108
+
+Women Helpline  1091
+
+Women Helpline - ( Domestic Abuse )  181
+
+Air Ambulance 9540161344 
+
+
+
+*/

@@ -1,11 +1,15 @@
 
 
 import 'package:donation/constant/colors.dart';
+import 'package:donation/service/api/api_service.dart';
 import 'package:donation/view/auth/login.dart';
+import 'package:donation/view/superadmin/profile/about.dart';
+import 'package:donation/view/superadmin/profile/privacypolicy.dart';
 import 'package:flutter/material.dart';
 
 class AdminProfilePage extends StatelessWidget {
-  const AdminProfilePage({super.key});
+  const AdminProfilePage({super.key, });
+
 
 
   
@@ -22,7 +26,7 @@ class AdminProfilePage extends StatelessWidget {
                       ),
                       
                         CircleAvatar(
-                        
+                        child: Text("A",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 35),),
                           radius: 50,
                         ),
                        
@@ -32,44 +36,32 @@ class AdminProfilePage extends StatelessWidget {
                           "Admin",
                         ),
                         style: const TextStyle(
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.bold,fontSize: 18
                         ),
                       ),
                       Text(
-                        'email',
+                        'Admin@gmail.com',style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          'phone',
-                          style: const TextStyle(fontWeight: FontWeight.w500),
+                          '98645xxxxx',
+                          style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 15),
                         ),
                       ),
                       const Divider(),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * .04,
                       ),
+                    
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ListTile(
                           onTap: () {
-                          
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>PrivacyPolicy()));
                           },
                           leading: const Icon(
-                            Icons.share,
-                            color: Colours.red,
-                          ),
-                          title: const Text("invite friends"),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          onTap: () {
-                            
-                          },
-                          leading: const Icon(
-                            Icons.privacy_tip_outlined,
+                            Icons.privacy_tip_outlined,//
                             color: Colours.red,
                           ),
                           title: const Text("Privacy Policy"),
@@ -80,6 +72,8 @@ class AdminProfilePage extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: ListTile(
                           onTap: () {
+                                                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AboutUs()));
+
                           },
                           leading: const Icon(
                             Icons.info_outline,
@@ -92,6 +86,9 @@ class AdminProfilePage extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: ListTile(
                           onTap: () {
+                                FirebaseService.removeValue('uid');
+
+                            Navigator.pop(context);
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(

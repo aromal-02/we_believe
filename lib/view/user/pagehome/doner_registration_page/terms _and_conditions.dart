@@ -120,7 +120,7 @@ class _DonorRegistrationState extends State<DonorRegistration> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Client_DonorRegistrationHome()));
+                              builder: (context) => DonorRegistrationHome()));
                     }
                   : null,
               child: const Text(

@@ -45,7 +45,7 @@ class CustomElevatedBtn extends StatelessWidget {
             child:!isLoading ? Text(
                 name,
                 style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: textColor)
-              ):Center(child:  LoadingAnimationWidget.waveDots(color: Colours.white, size:50 ),)),
+              ):Center(child:  LoadingAnimationWidget.waveDots(color: const Color.fromARGB(255, 255, 255, 255), size:50 ),)),
     );
   }
 }

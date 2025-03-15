@@ -1,6 +1,9 @@
 
 import 'package:donation/constant/colors.dart';
+import 'package:donation/constant/style.dart';
+import 'package:donation/service/api/api_service.dart';
 import 'package:donation/view/superadmin/pagehome/user_request/user_accept_and_decline.dart';
+import 'package:donation/widget/custom_toast.dart';
 import 'package:flutter/material.dart';
 
 
@@ -20,37 +23,26 @@ class UserRequestHome extends StatelessWidget {
         ),
         backgroundColor: Colours.red,
       ),
-      body:  LayoutBuilder(  
-            builder: (context, constraints) {
-              return ListView.builder(
-                itemCount:3,
-                itemBuilder: (context, index) {
-                  final name ='name' ;
-                  final address = 'address' ;
-                  final phone = 'phone' ;
-                  final blood = 'blood' ;
-                  final gender = 'gender' ;
-                  final id = 'uid' ;
-                  final age = 'age' ;
-                  final Unit = 'bloodUint' ;
+      body:  FutureBuilder(future: FirebaseService.fetch_request(), 
+      builder: (context,snapshot){
+if(snapshot.connectionState==ConnectionState.waiting){
+  return Center(child: CircularProgressIndicator(color: Colours.red,));
+}else if(snapshot.hasError){
+CustomToast().show("Error");
+return Center(child: Text("Error"));
+}else{
+final donors = snapshot.data!;
+if(donors.isEmpty){return Center(child: Text("Request empty "),);}else{
 
+           
+            return ListView.builder(
+              itemCount: donors.length,
+              itemBuilder: (context, index) {
+                final donor = donors[index];
+                 
                   return Stack(
                     children: [
-                      // Visibility(
-                      //   visible: 'emergency' == true,
-                      //   child: const Positioned(
-                      //     right: 10,
-                      //     top: 10,
-                      //     child: CornerBanner(
-                      //       bannerPosition: CornerBannerPosition.topRight,
-                      //       bannerColor: Colors.red,
-                      //       child: Text(
-                      //         'Urgent',
-                      //         style: TextStyle(color: Colors.white),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
+                     
                       Container(
                         padding: EdgeInsets.all(8.0),
                         margin: const EdgeInsets.all(10),
@@ -65,11 +57,8 @@ class UserRequestHome extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  name,
-                                  style: TextStyle(
-                                    // fontSize: constraints.maxWidth * .050,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  donor.name,
+                                  style: AppTextStyles.title
                                 ),
                               ],
                             ),
@@ -78,48 +67,34 @@ class UserRequestHome extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                   Text(
+          "Address: ${donor.address}", 
+          style: AppTextStyles.tiledetails,
+        ),
                                   Text(
-                                    "Address :$address",
-                                    // style: TextStyle(
-                                    //   fontSize: constraints.maxWidth * .040,
-                                    //   fontWeight: FontWeight.bold,
-                                    // ),
-                                    // overflow: TextOverflow.fade,
+                                    "Ph : ${donor.phone}",
+                                            style: AppTextStyles.tiledetails,
+
                                   ),
                                   Text(
-                                    "Ph : $phone",
-                                    // style: TextStyle(
-                                    //   fontSize: constraints.maxWidth * .040,
-                                    //   fontWeight: FontWeight.bold,
-                                    // ),
+                                    "Group : ${donor.group}",
+                                            style: AppTextStyles.tiledetails,
+
                                   ),
                                   Text(
-                                    "Group : $blood",
-                                    // style: TextStyle(
-                                    //   fontSize: constraints.maxWidth * .040,
-                                    //   fontWeight: FontWeight.bold,
-                                    // ),
+                                    "Age : ${donor.age}",
+                                             style: AppTextStyles.tiledetails,
+
                                   ),
                                   Text(
-                                    "Age : $age",
-                                    // style: TextStyle(
-                                    //   fontSize: constraints.maxWidth * .040,
-                                    //   fontWeight: FontWeight.bold,
-                                    // ),
+                                    "Gender : ${donor.gender}",
+                                           style: AppTextStyles.tiledetails,
+
                                   ),
                                   Text(
-                                    "Gender : $gender",
-                                    // style: TextStyle(
-                                    //   fontSize: constraints.maxWidth * .040,
-                                    //   fontWeight: FontWeight.bold,
-                                    // ),
-                                  ),
-                                  Text(
-                                    "Blood Unit : $Unit",
-                                    // style: TextStyle(
-                                    //   fontSize: constraints.maxWidth * .040,
-                                    //   fontWeight: FontWeight.bold,
-                                    // ),
+                                    "Blood Unit : ${donor.unit}",
+                                              style: AppTextStyles.tiledetails,
+
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
@@ -131,17 +106,14 @@ class UserRequestHome extends StatelessWidget {
                                                   Colors.red),
                                         ),
                                         onPressed: () {
+                                    
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   UserAcceptandDecline(
-                                                bloodgroup: blood,
-                                                bloodid: id,
-                                                docId: "document.id",
-                                                unit:Unit,
-                                                
-
+                                                bloodgroup: "O+", reqId: donor.docId,
+                                                reciever:  donor.name,
                                               ),
                                             ),
                                           );
@@ -163,8 +135,12 @@ class UserRequestHome extends StatelessWidget {
                   );
                 },
               );
-            },
-          ));
+      }}})
+              
+              
+        
+            
+          );
         }
       
     

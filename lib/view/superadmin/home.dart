@@ -4,7 +4,8 @@ import 'package:donation/widget/optiontile.dart';
 import 'package:flutter/material.dart';
 
 class AdminHome extends StatelessWidget {
-  const AdminHome({super.key});
+  const AdminHome({super.key, });
+
 
  @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class AdminHome extends StatelessWidget {
               title: GestureDetector(
                 onTap: () {
 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const AdminProfilePage(),
+                    builder: (context) =>  AdminProfilePage(),
                   ));
                 },
                 child: Row(
